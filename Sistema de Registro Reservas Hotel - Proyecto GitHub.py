@@ -10,9 +10,9 @@ def calcular_categoria(total):
     else:
         return "Premium"
 
-def buscar_posicion(codigo):
+def buscar_posicion(reservas, codigo):
     for i in range(len(reservas)):
-        if reservas[i]["Codigo"] == codigo:
+        if reservas[i]["codigo"] == codigo:
             return i
     return -1
 
@@ -101,6 +101,23 @@ def mostrar_estadisticas():
     if len(reservas) == 0:
         print("No existen reservas.")
         return
+
+
+#Menu Principal
+def menu():
+    print("""   Sistema de reservas de hotel    
+          
+          1. Registrar Reserva
+          2. Buscar Reserva
+          3. Actualizar Reserva
+          4. Eliminar Reserva
+          5. Mostrar Reservas
+          6. Mostrar Estadisticas
+          7. Salir
+                    """)  
+
+#Programa Principal
+def main():
     
     cantidad = len(reservas)
 

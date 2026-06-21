@@ -1,85 +1,144 @@
-#Validaciones
+# Lista donde se almacenarán las reservas
+reservas = []
 
-def validacion_codigo(codigo):
-    return codigo.strip() != ""
+# FUNCIONES
 
-def validacion_nombre(nombre):
-    return nombre.strip() != ""
+def calcular_categoria(total):
+    if total < 200000:
+        return "Economica"
+    elif total <= 500000:
+        return "Estandar"
+    else:
+        return "Premium"
 
-def buscar_codigo(reservas):
-    for codigo in reservas:
-        if reservas["codigo"] == codigo:
-            return codigo
+def buscar_posicion(codigo):
+    for i in range(len(reservas)):
+        if reservas[i]["Codigo"] == codigo:
+            return i
+    return -1
 
-#1. Registrar Reserva
-def registrar_reserva(reservas):
-    print("\n===== REGISTRAR RESERVA =====\n")
+def validar_texto(mensaje):
+    while True:
+        texto = input(mensaje)
+        if texto.strip() != "":
+            return texto
+        print("Error: No puede estar vacío.")
 
-    codigo=input("Ingrese el codigo de la reservacion a registrar:\n").strip()
+def validar_entero(mensaje):
+    while True:
+        try:
+            numero = int(input(mensaje))
+            if numero > 0:
+                return numero
+            else:
+                print("Debe ser mayor que 0.")
+        except:
+            print("Ingrese un número entero válido.")
 
-    #Validar Codigo
-    if not validacion_codigo(codigo):
-        print("Error: El codigo no puede estar vacio.\n")
+# OPCION 1
+
+def registrar_reserva():
+
+    codigo = validar_texto("Código: ")
+
+    if buscar_posicion(codigo) != -1:
+        print("Ese código ya existe.")
         return
 
-#2. Buscar Reserva
-def buscar_reserva(reservas):
-    pass
+    nombre = validar_texto("Nombre huésped: ")
+    noches = validar_entero("Cantidad de noches: ")
+    valor_noche = validar_entero("Valor por noche: ")
 
-#3. Actualizar Reserva
-def actualizaar_reserva(reservas):
-    pass
+    total = noches * valor_noche
+    categoria = calcular_categoria(total)
 
-#Menu Principal
-def menu():
-    print("""   Sistema de reservas de hotel    
-          
-          1. Registrar Reserva
-          2. Buscar Reserva
-          3. Actualizar Reserva
-          4. Eliminar Reserva
-          5. Mostrar Reservas
-          6. Mostrar Estadisticas
-          7. Salir
-                    """)  
+    reserva = {
+        "Codigo": codigo,
+        "Nombre": nombre,
+        "Noches": noches,
+        "Valor noche": valor_noche,
+        "Total": total,
+        "Categoria": categoria
+    }
 
-def leer_opcion():
-    pass
+    reservas.append(reserva)
 
+    print("Reserva registrada correctamente.")
 
-#Programa Principal
-def main():
+# OPCIÓN 2
+
+def buscar_reserva():
+
+    codigo = input("Ingrese código: ")
+
+    item = buscar_posicion(codigo)
+
+    if item == -1:
+        print("Reserva no encontrada.")
+        return
+    else:
+        print("Item:", item)
+
+        for clave, valor in reservas[item].items():
+            print(clave, ":", valor)
+
+# OPCIÓN 5
+
+def mostrar_reservas():
+
+    if len(reservas) == 0:
+        print("No hay reservas registradas.")
+        return
     
-    import os
-    import time
-    reservas = []
+    for reserva in reservas:
+        print("----------------------")
+        for clave, valor in reserva.items():
+            print(clave,": ", valor)
 
-    while True:
-        menu()
 
-        opcion = leer_opcion()
+
+# MENU
+
+opcion = 0
+
+while opcion != 7:
+
+    print("\n===== HOTEL =====")
+    print("1. Registrar reserva")
+    print("2. Buscar reserva")
+    print("3. Actualizar reserva")
+    print("4. Eliminar reserva")
+    print("5. Mostrar reservas")
+    print("6. Mostrar estadísticas")
+    print("7. Salir")
+
+    try:
+        opcion = int(input("Seleccione opción: "))
 
         if opcion == 1:
-            pass
+            registrar_reserva()
 
-        if opcion == 2:
-            pass
+        elif opcion == 2:
+            buscar_reserva()
 
-        if opcion == 3:
-            pass
+        elif opcion == 3:
+            actualizar_reserva()
 
-        if opcion == 4:
-            pass
+        elif opcion == 4:
+            eliminar_reserva()
 
-        if opcion == 5:
-            pass
+        elif opcion == 5:
+            mostrar_reservas()
 
-        if opcion == 6:
-            pass
+        elif opcion == 6:
+            mostrar_estadisticas()
 
-        if opcion == 7:
-            print("Hasta luego.\nGracias por usar nuestro programa.")
+        elif opcion == 7:
+            print("Gracias por utilizar el sistema.")
             break
 
-main()        
-            
+        else:
+            print("Opción inválida.")
+
+    except:
+        print("Debe ingresar un número.")

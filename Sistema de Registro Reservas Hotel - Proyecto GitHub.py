@@ -1,4 +1,3 @@
-# Lista donde se almacenarán las reservas
 reservas = []
 
 # FUNCIONES
@@ -95,7 +94,36 @@ def mostrar_reservas():
         for clave, valor in reserva.items():
             print(clave,": ", valor)
 
+# OPCIÓN 6
 
+def mostrar_estadisticas():
+
+    if len(reservas) == 0:
+        print("No existen reservas.")
+        return
+    
+    cantidad = len(reservas)
+
+    ingresos = 0
+
+    for reserva in reservas:
+        ingresos += reserva["Total"]
+
+    mayor = reservas[0]
+
+    for reserva in reservas:
+        if reserva["Total"] > mayor["Total"]:
+            mayor = reserva
+
+    promedio = ingresos / cantidad
+
+    print("Cantidad de reservas:", cantidad)
+    print("Ingresos totales:", ingresos)
+    print("Reserva de mayor valor:")
+    print("Código:", mayor["Codigo"])
+    print("Cliente:", mayor["Nombre"])
+    print("Total:", mayor["Total"])
+    print("Promedio por reserva: ", promedio)
 
 # MENU
 

@@ -1,15 +1,36 @@
 #Validaciones
 
-def validacion_codigo(codigo):
-    return codigo.strip() != ""
+def calcular_categoria(total):
+    if total < 200000:
+        return "Economica"
+    elif total <= 500000:
+        return "Estandar"
+    else:
+        return "Premium"
 
-def validacion_nombre(nombre):
-    return nombre.strip() != ""
+def buscar_posicion(reservas, codigo):
+    for i in range(len(reservas)):
+        if reservas[i]["codigo"] == codigo:
+            return i
+    return -1
 
-def buscar_codigo(reservas):
-    for codigo in reservas:
-        if reservas["codigo"] == codigo:
-            return codigo
+def validar_texto(mensaje):
+    while True:
+        texto = input(mensaje)
+        if texto.strip() != "":
+            return texto
+        print("Error: No puede estar vacío.")
+
+def validar_entero(mensaje):
+    while True:
+        try:
+            numero = int(input(mensaje))
+            if numero > 0:
+                return numero
+            else:
+                print("Debe ser mayor que 0.")
+        except:
+            print("Ingrese un número entero válido.")
 
 #1. Registrar Reserva
 def registrar_reserva(reservas):
@@ -28,7 +49,14 @@ def buscar_reserva(reservas):
 
 #3. Actualizar Reserva
 def actualizaar_reserva(reservas):
-    pass
+
+    codigo=input("Ingrese el codigo a actualizar:\n")
+
+    if not buscar_posicion(codigo):
+        print("El codigo de la reservacion no existe.")
+        return
+    
+     
 
 #Menu Principal
 def menu():
@@ -44,7 +72,14 @@ def menu():
                     """)  
 
 def leer_opcion():
-    pass
+    try:
+        opcion=int(input("Ingrese la opcion del menú a la que desea ingresar:\n"))
+
+        if not 1 <= opcion <= 6:
+            print("Opcion inexistente, ingrese nuevamente.")
+            return
+    except ValueError as e:
+        print(f"Error: {e}")   
 
 
 #Programa Principal

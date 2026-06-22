@@ -152,7 +152,7 @@ def eliminar_reserva(reservas):
 
 # OPCIÓN 5
 
-def mostrar_reservas():
+def mostrar_reservas(reservas):
 
     if len(reservas) == 0:
         print("No hay reservas registradas.")
@@ -165,12 +165,34 @@ def mostrar_reservas():
 
 # OPCIÓN 6
 
-def mostrar_estadisticas():
+def mostrar_estadisticas(reservas):
 
     if len(reservas) == 0:
         print("No existen reservas.")
         return
+    
+    cantidad = len(reservas)
 
+    ingresos = 0
+
+    for reserva in reservas:
+        ingresos += reserva["Total"]
+
+    mayor = reservas[0]
+
+    for reserva in reservas:
+        if reserva["Total"] > mayor["Total"]:
+            mayor = reserva
+
+    promedio = ingresos / cantidad
+
+    print("Cantidad de reservas: ", cantidad)
+    print("Ingresos totales: $", ingresos)
+    print("Reserva de mayor valor:")
+    print("Código: ", mayor["Codigo"])
+    print("Cliente: ", mayor["Nombre"])
+    print("Total: $", mayor["Total"])
+    print("Promedio por reserva: $", round(promedio))
 
 #Menu Principal
 def menu():
@@ -201,10 +223,10 @@ def menu():
                 eliminar_reserva(reservas)
 
             elif opcion == 5:
-                mostrar_reservas()
+                mostrar_reservas(reservas)
 
             elif opcion == 6:
-                mostrar_estadisticas()
+                mostrar_estadisticas(reservas)
 
             elif opcion == 7:
                 print("Gracias por utilizar el sistema.")
@@ -220,27 +242,9 @@ def menu():
 #Programa Principal
 def main():
     
-    cantidad = len(reservas)
+    menu()
+    
 
-    ingresos = 0
 
-    for reserva in reservas:
-        ingresos += reserva["Total"]
+main()
 
-    mayor = reservas[0]
-
-    for reserva in reservas:
-        if reserva["Total"] > mayor["Total"]:
-            mayor = reserva
-
-    promedio = ingresos / cantidad
-
-    print("Cantidad de reservas:", cantidad)
-    print("Ingresos totales:", ingresos)
-    print("Reserva de mayor valor:")
-    print("Código:", mayor["Codigo"])
-    print("Cliente:", mayor["Nombre"])
-    print("Total:", mayor["Total"])
-    print("Promedio por reserva: ", promedio)
-
-menu()

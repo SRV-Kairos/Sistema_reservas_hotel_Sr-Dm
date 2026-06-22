@@ -12,7 +12,7 @@ def calcular_categoria(total):
 
 def buscar_posicion(reservas, codigo):
     for i in range(len(reservas)):
-        if reservas[i]["codigo"] == codigo:
+        if reservas[i]["Codigo"] == codigo:
             return i
     return -1
 
@@ -40,7 +40,7 @@ def registrar_reserva():
 
     codigo = validar_texto("Código: ")
 
-    if buscar_posicion(codigo) != -1:
+    if buscar_posicion(reservas, codigo) != -1:
         print("Ese código ya existe.")
         return
 
@@ -66,11 +66,11 @@ def registrar_reserva():
 
 # OPCIÓN 2
 
-def buscar_reserva():
+def buscar_reserva(reservas):
 
     codigo = input("Ingrese código: ")
 
-    item = buscar_posicion(codigo)
+    item = buscar_posicion(reservas, codigo)
 
     if item == -1:
         print("Reserva no encontrada.")
@@ -85,53 +85,69 @@ def buscar_reserva():
 
 def actualizar_reserva(reservas):
 
-    codigo=input("Ingrese el codigo a actualizar:\n")
+    if len(reservas) == 0:
+        print("No hay reservas registradas para actualizar.")
+        return
 
-    if not buscar_posicion(reservas, codigo):
+    codigo=validar_texto("Ingrese el codigo a actualizar:\n")
+
+    pos = buscar_posicion(reservas, codigo)
+
+    if pos == -1:
         print("El codigo de la reservacion no existe.")
         return            
     
+    #Actualizacion nombre reservante
+
+    nuevo_nombre = validar_texto("Ingrese el nuevo nombre del reservador:\n").strip()
+
+    reservas[pos]["Nombre"] = nuevo_nombre
+  
     print(f"Nombre de reservador actualizado a {nuevo_nombre} exitosamente.")
 
-    nueva_noches = int(input("Ingrese la cantidad de noches:\n"))
+    #Actualizacion valor por noche
 
-    if not validar_entero(codigo):
-        print("")
+    nueva_noches = validar_entero("Ingrese la cantidad de noches:\n")
+
+    reservas[pos]["Noches"] = nueva_noches
 
     print(f"Cantidad de noches actualizada a: {nueva_noches}")
-    codigo["Noches"] = nueva_noches
 
-    nuevo_valor_noche = int (input("Ingrese el valor por noche:\n"))
+    #Actualizacion valor total de las noches
 
-    if not validar_entero(codigo):
-        print("")
+    nuevo_valor_noche = validar_entero("Ingrese el valor por noche:\n")
+
+    reservas[pos]["Valor noche"] = nuevo_valor_noche
 
     print(f"Nuevo valor por noche actualizado a ${nuevo_valor_noche} correctamente.")
-    codigo["Valor noche"] = nuevo_valor_noche
+   
 
     total = nueva_noches * nuevo_valor_noche
 
-    codigo["Total"] = total
+    reservas[pos]["Total"] = total
     
     nueva_categoria = calcular_categoria(total)
 
-    codigo["Categoria"] = nueva_categoria
+    reservas[pos]["Categoria"] = nueva_categoria
 
 # OPCIÓN 4
 
-def eliminar_reserva():
-
-    codigo = input("Ingrese el codigo de la reserva que desea eliminar:\n").strip()
+def eliminar_reserva(reservas):
 
     if len(reservas) == 0:
         print("No hay reservas registradas.")
         return
 
-    if buscar_posicion(reservas, codigo) is None:
+    codigo = validar_texto("Ingrese el codigo de la reserva que desea eliminar:\n").strip()
+
+    pos = buscar_posicion(reservas, codigo)
+
+    if pos == -1:
         print("Codigo de reserva no encontrado.")
         return
 
-    del reservas[codigo]
+    del reservas[pos]
+    print(f"Reserva {codigo} eliminada exitosamente.")
         
 
 # OPCIÓN 5
@@ -217,13 +233,13 @@ while opcion != 7:
             registrar_reserva()
 
         elif opcion == 2:
-            buscar_reserva()
+            buscar_reserva(reservas)
 
         elif opcion == 3:
-            actualizar_reserva()
+            actualizar_reserva(reservas)
 
         elif opcion == 4:
-            eliminar_reserva()
+            eliminar_reserva(reservas)
 
         elif opcion == 5:
             mostrar_reservas()

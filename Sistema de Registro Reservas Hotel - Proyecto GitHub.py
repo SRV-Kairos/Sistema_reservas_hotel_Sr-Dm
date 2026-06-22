@@ -152,7 +152,7 @@ def eliminar_reserva(reservas):
 
 # OPCIÓN 5
 
-def mostrar_reservas():
+def mostrar_reservas(reservas):
 
     if len(reservas) == 0:
         print("No hay reservas registradas.")
@@ -165,28 +165,11 @@ def mostrar_reservas():
 
 # OPCIÓN 6
 
-def mostrar_estadisticas():
+def mostrar_estadisticas(reservas):
 
     if len(reservas) == 0:
         print("No existen reservas.")
         return
-
-
-#Menu Principal
-def menu():
-    print("""   Sistema de reservas de hotel    
-          
-          1. Registrar Reserva
-          2. Buscar Reserva
-          3. Actualizar Reserva
-          4. Eliminar Reserva
-          5. Mostrar Reservas
-          6. Mostrar Estadisticas
-          7. Salir
-                    """)  
-
-#Programa Principal
-def main():
     
     cantidad = len(reservas)
 
@@ -203,56 +186,64 @@ def main():
 
     promedio = ingresos / cantidad
 
-    print("Cantidad de reservas:", cantidad)
-    print("Ingresos totales:", ingresos)
+    print("Cantidad de reservas: ", cantidad)
+    print("Ingresos totales: $", ingresos)
     print("Reserva de mayor valor:")
-    print("Código:", mayor["Codigo"])
-    print("Cliente:", mayor["Nombre"])
-    print("Total:", mayor["Total"])
-    print("Promedio por reserva: ", promedio)
+    print("Código: ", mayor["Codigo"])
+    print("Cliente: ", mayor["Nombre"])
+    print("Total: $", mayor["Total"])
+    print("Promedio por reserva: $", round(promedio))
 
-# MENU
+#Menu Principal
+def menu():
+    opcion = 0
+    while opcion != 7:
+        print("\n===== HOTEL =====")
+        print("1. Registrar reserva")
+        print("2. Buscar reserva")
+        print("3. Actualizar reserva")
+        print("4. Eliminar reserva")
+        print("5. Mostrar reservas")
+        print("6. Mostrar estadísticas")
+        print("7. Salir")
 
-opcion = 0
+        try:
+            opcion = int(input("Seleccione opción: "))
 
-while opcion != 7:
+            if opcion == 1:
+                registrar_reserva()
 
-    print("\n===== HOTEL =====")
-    print("1. Registrar reserva")
-    print("2. Buscar reserva")
-    print("3. Actualizar reserva")
-    print("4. Eliminar reserva")
-    print("5. Mostrar reservas")
-    print("6. Mostrar estadísticas")
-    print("7. Salir")
+            elif opcion == 2:
+                buscar_reserva(reservas)
 
-    try:
-        opcion = int(input("Seleccione opción: "))
+            elif opcion == 3:
+                actualizar_reserva(reservas)
 
-        if opcion == 1:
-            registrar_reserva()
+            elif opcion == 4:
+                eliminar_reserva(reservas)
 
-        elif opcion == 2:
-            buscar_reserva(reservas)
+            elif opcion == 5:
+                mostrar_reservas(reservas)
 
-        elif opcion == 3:
-            actualizar_reserva(reservas)
+            elif opcion == 6:
+                mostrar_estadisticas(reservas)
 
-        elif opcion == 4:
-            eliminar_reserva(reservas)
+            elif opcion == 7:
+                print("Gracias por utilizar el sistema.")
+                break
 
-        elif opcion == 5:
-            mostrar_reservas()
+            else:
+                print("Opción inválida.")
 
-        elif opcion == 6:
-            mostrar_estadisticas()
+        except ValueError as e:
+            print(F"Debe ingresar un número.", e)
 
-        elif opcion == 7:
-            print("Gracias por utilizar el sistema.")
-            break
 
-        else:
-            print("Opción inválida.")
+#Programa Principal
+def main():
+    
+    menu()
+    
 
-    except ValueError as e:
-        print(F"Debe ingresar un número.", e)
+
+main()

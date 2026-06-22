@@ -81,6 +81,59 @@ def buscar_reserva():
         for clave, valor in reservas[item].items():
             print(clave, ":", valor)
 
+# OPCIÓN 3
+
+def actualizar_reserva(reservas):
+
+    codigo=input("Ingrese el codigo a actualizar:\n")
+
+    if not buscar_posicion(reservas, codigo):
+        print("El codigo de la reservacion no existe.")
+        return            
+    
+    print(f"Nombre de reservador actualizado a {nuevo_nombre} exitosamente.")
+
+    nueva_noches = int(input("Ingrese la cantidad de noches:\n"))
+
+    if not validar_entero(codigo):
+        print("")
+
+    print(f"Cantidad de noches actualizada a: {nueva_noches}")
+    codigo["Noches"] = nueva_noches
+
+    nuevo_valor_noche = int (input("Ingrese el valor por noche:\n"))
+
+    if not validar_entero(codigo):
+        print("")
+
+    print(f"Nuevo valor por noche actualizado a ${nuevo_valor_noche} correctamente.")
+    codigo["Valor noche"] = nuevo_valor_noche
+
+    total = nueva_noches * nuevo_valor_noche
+
+    codigo["Total"] = total
+    
+    nueva_categoria = calcular_categoria(total)
+
+    codigo["Categoria"] = nueva_categoria
+
+# OPCIÓN 4
+
+def eliminar_reserva():
+
+    codigo = input("Ingrese el codigo de la reserva que desea eliminar:\n").strip()
+
+    if len(reservas) == 0:
+        print("No hay reservas registradas.")
+        return
+
+    if buscar_posicion(reservas, codigo) is None:
+        print("Codigo de reserva no encontrado.")
+        return
+
+    del reservas[codigo]
+        
+
 # OPCIÓN 5
 
 def mostrar_reservas():
@@ -185,5 +238,5 @@ while opcion != 7:
         else:
             print("Opción inválida.")
 
-    except:
-        print("Debe ingresar un número.")
+    except ValueError as e:
+        print(F"Debe ingresar un número.", e)

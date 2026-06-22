@@ -44,9 +44,9 @@ def registrar_reserva():
         print("Ese código ya existe.")
         return
 
-    nombre = validar_texto("Nombre huésped:\n")
-    noches = validar_entero("Cantidad de noches:\n")
-    valor_noche = validar_entero("Valor por noche:\n")
+    nombre = validar_texto("Nombre huésped: ")
+    noches = validar_entero("Cantidad de noches: ")
+    valor_noche = validar_entero("Valor por noche: ")
 
     total = noches * valor_noche
     categoria = calcular_categoria(total)
@@ -68,7 +68,7 @@ def registrar_reserva():
 
 def buscar_reserva():
 
-    codigo = input("Ingrese código:\n ")
+    codigo = input("Ingrese código: ")
 
     item = buscar_posicion(codigo)
 
@@ -82,8 +82,6 @@ def buscar_reserva():
             print(clave, ":", valor)
 
 # OPCIÓN 3
-
-#3. Actualizar Reserva
 
 def actualizar_reserva(reservas):
 
@@ -213,7 +211,7 @@ while opcion != 7:
     print("7. Salir")
 
     try:
-        opcion = int(input("Seleccione opción:\n"))
+        opcion = int(input("Seleccione opción: "))
 
         if opcion == 1:
             registrar_reserva()
